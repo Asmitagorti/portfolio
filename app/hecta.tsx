@@ -43,7 +43,7 @@ export function Hecta({ project }: { project: (typeof projects)[number] }) {
   return <article id="hecta" className={s.hectaRoom} aria-labelledby="hecta-title">
     <div className={s.hectaEntrance}>
       <header>
-        <p className={s.eyebrow}>{project.role} · {project.date}</p>
+        <p className={s.eyebrow}>{[project.role, project.date, project.location].filter(Boolean).join(' · ')}</p>
         <h3 id="hecta-title">{project.title}</h3>
         <p>{project.summary}</p>
         <ul className={s.tags}>{project.tags.map(tag => <li key={tag}>{tag}</li>)}</ul>
@@ -99,7 +99,8 @@ export function Hecta({ project }: { project: (typeof projects)[number] }) {
         <div><dt>What I changed in Python</dt><dd>{hectaCase.change}</dd></div>
         <div><dt>What it helped the chatbot do</dt><dd>{hectaCase.result}</dd></div>
       </dl>
-      <h5>Researching local models</h5>
+      <p>{hectaCase.retrieval}</p>
+      <h5 className={s.localModels}>Researching local models</h5>
       <p>{hectaCase.models}</p>
     </section>
   </article>;

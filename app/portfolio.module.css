@@ -193,3 +193,5 @@
 .crochetStory h4 { font: normal clamp(1.9rem,4vw,3rem)/1.13 var(--serif); margin: 0; }
 .crochetStory a { display: inline-block; margin: 8px 16px 0 0; text-underline-offset: 4px; }
 @media (max-width: 760px) { .crochetMedia { grid-template-columns: 1fr; } }
+.hectaCase h5.localModels { margin-top: 18px; }
+.crochetStory summary { cursor: pointer; width: fit-content; font-weight: bold; }

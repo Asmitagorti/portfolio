@@ -53,7 +53,7 @@ function Research({ project }: { project: Project }) {
   return <article id="vecc" className={s.hectaRoom} aria-labelledby="vecc-title">
     <div className={s.hectaEntrance}>
       <header>
-        <p className={s.eyebrow}>{project.role} · {project.date}</p>
+        <p className={s.eyebrow}>{[project.role, project.date, project.location].filter(Boolean).join(' · ')}</p>
         <h3 id="vecc-title">{project.title}</h3>
         <p>{project.summary}</p>
         <ul className={s.tags}>{project.tags.map(tag => <li key={tag}>{tag}</li>)}</ul>
@@ -84,6 +84,7 @@ function Research({ project }: { project: Project }) {
       <details className={s.veccTechnical}>
         <summary>Technical details</summary>
         <p>{project.contribution}</p>
+        <p>{project.detail}</p>
         {project.url && <a href={project.url} target="_blank" rel="noreferrer">Internship certificate</a>}
       </details>
     </div>
@@ -112,7 +113,8 @@ function Crochet({ project }: { project: Project }) {
     <div className={s.crochetStory}>
       <h4>From a campus poll to pickup</h4>
       <p>I wanted to learn which designs students would actually pick before deciding what to make. The first launch let students browse designs, choose favorites, and sign in with Google to save their votes.</p>
-      <p>I built the storefront with Next.js and a MongoDB catalog, with stock reservations, order tracking, and server-side Razorpay payment verification. I’m planning to use the poll to decide what to make available for campus pickup and ordering. The live site is currently in voting mode, with orders and payments paused.</p>
+      <p>I launched the storefront for my handmade keychains and amigurumi. I’m using the poll to decide what to make available for campus pickup and ordering. The live site is currently in voting mode, with orders and payments paused.</p>
+      <details><summary>Storefront and admin implementation</summary><p>{project.detail}</p><p>{project.operations}</p></details>
       <a href={shop} target="_blank" rel="noreferrer">Visit the voting site</a>
       {project.url && <a href={project.url} target="_blank" rel="noreferrer">GitHub repository</a>}
     </div>
