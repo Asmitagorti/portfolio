@@ -95,14 +95,12 @@ export function Hecta({ project }: { project: (typeof projects)[number] }) {
     <div className={s.hectaCase}>
       <details className={s.veccTechnical}>
         <summary>Technical details</summary>
-        <h4>Making search handle typos and shorthand</h4>
         <dl>
           <div><dt>Illustrative input</dt><dd><code>{hectaCase.input}</code><p>{hectaCase.challenge}</p></dd></div>
           <div><dt>What I changed in Python</dt><dd>{hectaCase.change}</dd></div>
           <div><dt>What it helped the chatbot do</dt><dd>{hectaCase.result}</dd></div>
         </dl>
         <p>{hectaCase.retrieval}</p>
-        <h5 className={s.localModels}>Researching local models</h5>
         <p>{hectaCase.models}</p>
       </details>
     </div>

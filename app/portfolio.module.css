@@ -139,8 +139,7 @@
 .veccRunHead h4 { margin: 0; }
 .veccRunHead strong { font: 1.4rem var(--serif); color: #ffd3ad; }
 .veccRuns p, .veccTechnical p { line-height: 1.55; }
-.veccTechnical { border-top: 1px solid #e8b5a14a; padding-top: 18px; margin-top: 24px; }
-.veccTechnical summary { cursor: pointer; font-weight: bold; width: fit-content; }
+.veccTechnical summary { cursor: pointer; font-size: .875rem; width: fit-content; padding: 7px 0; text-decoration: underline; text-underline-offset: 4px; }
 .veccTechnical a { text-underline-offset: 4px; }
 @media (max-width: 600px) {
   .veccRuns { grid-template-columns: 1fr; }
@@ -157,13 +156,12 @@
 .hectaFilters dd { margin: 4px 0 0; }
 .hectaRecord { display: grid; gap: 6px; line-height: 1.5; }
 .hectaRecord p { margin: 0 0 6px; }
-.hectaCase { padding: clamp(22px,5vw,55px); border-top: 1px solid #ffffff35; }
-.hectaCase h4 { font: normal clamp(2rem,4vw,3.4rem)/1.08 var(--serif); margin: 0 0 20px; }
-.hectaCase dl { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 12px; margin: 0 0 22px; }
+.hectaCase { padding: 6px clamp(22px,5vw,64px) 10px; }
+.hectaCase:has(details[open]) { padding-bottom: 22px; }
+.hectaCase dl { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 12px; margin: 10px 0 14px; }
 .hectaCase dl div { background: #243b33; padding: 16px; border-radius: 8px; }
-.hectaCase dt, .hectaCase h5 { font-weight: bold; color: #f9d5a7; }
+.hectaCase dt { font-weight: bold; color: #f9d5a7; }
 .hectaCase dd { margin: 8px 0 0; line-height: 1.55; }
-.hectaCase h5 { font-size: 1.05rem; margin: 0; }
 .hectaCase p { line-height: 1.55; margin: 8px 0 0; max-width: 70ch; }
 @media (max-width: 760px) {
   .hectaEntrance, .hectaCase dl { grid-template-columns: 1fr; }
@@ -188,7 +186,6 @@
 .crochetMedia figcaption { margin-top: 8px; font-size: .9rem; }
 .crochetLinks a { display: inline-block; margin: 8px 16px 0 0; text-underline-offset: 4px; }
 @media (max-width: 760px) { .crochetMedia { grid-template-columns: 1fr; } }
-.hectaCase h5.localModels { margin-top: 18px; }
 
 .hectaRoom.veccPalette { background: #342133; border-color: #c594b887; }
 .veccPalette .hectaEntrance { background: radial-gradient(ellipse at 86% 20%, #75415f, transparent 72%), #452840; }
@@ -201,4 +198,3 @@
 .veccPalette .timingTrack span { background: #d6a4dd; }
 .veccPalette .veccRuns section + section .timingTrack span { background: #f1bdc6; }
 
-.hectaCase .veccTechnical h4 { margin-top: 18px; }
