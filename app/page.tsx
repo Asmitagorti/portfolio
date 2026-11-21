@@ -148,7 +148,7 @@ export default function Home() {
         <div className={s.sectionInner}>
           <div className={s.sectionHead}><h2>Selected work<span>.</span></h2><p>Internships & independent projects</p></div>
           <nav className={s.projectNav} aria-label="Jump to a project">{projects.map(project => <a key={project.id} href={'#' + project.id}>{project.short}</a>)}</nav>
-          <div className={s.rooms}>{projects.map(project => project.id === 'vecc' ? <Research key={project.id} project={project}/> : <article key={project.id} id={project.id} className={s.room} data-project={project.id} style={project.poster ? { backgroundImage: 'linear-gradient(90deg, #151016f5, #15101655), url(' + project.poster + ')' } : undefined}>
+          <div className={s.rooms}>{projects.map(project => project.id === 'hecta' ? <Hecta key={project.id} project={project}/> : project.id === 'vecc' ? <Research key={project.id} project={project}/> : <article key={project.id} id={project.id} className={s.room} data-project={project.id} style={project.poster ? { backgroundImage: 'linear-gradient(90deg, #151016f5, #15101655), url(' + project.poster + ')' } : undefined}>
             <div className={s.projectCopy}>
               <p className={s.eyebrow}>{project.role}{project.date && ' · ' + project.date}</p>
               <h3>{project.title}</h3>
@@ -157,7 +157,7 @@ export default function Home() {
               <ul className={s.tags}>{project.tags.map(tag => <li key={tag}>{tag}</li>)}</ul>
               <div className={s.projectLinks}><a href={'#' + project.id} aria-label={'Permalink to ' + project.title}>Project link</a>{project.url && <a href={project.url} target="_blank" rel="noreferrer">{'GitHub repository'}</a>}</div>
             </div>
-            <div className={s.projectMedia}>{project.video && <Video {...project}/>} {project.id === 'hecta' ? <Hecta/> : project.id === 'crochet' ? <Crochet/> : <Replay project={project}/>}</div>
+            <div className={s.projectMedia}>{project.video && <Video {...project}/>} {project.id === 'crochet' ? <Crochet/> : <Replay project={project}/>}</div>
           </article>)}</div>
         </div>
         <audio ref={audio} preload="none" loop src={soundtrack}/>

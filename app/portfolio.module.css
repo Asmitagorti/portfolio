@@ -160,3 +160,25 @@
   .veccRuns { grid-template-columns: 1fr; }
 }
 .gallery img.studioPhoto { aspect-ratio: 4 / 3; object-fit: contain; background: #eee7d9; }
+.hectaRoom { border: 1px solid #9ab2a36b; border-radius: 12px; overflow: hidden; color: #fff8ed; background: #172d27; }
+.hectaEntrance { display: grid; grid-template-columns: minmax(0,.9fr) minmax(0,1.1fr); align-items: center; gap: clamp(22px,5vw,66px); padding: clamp(22px,5vw,64px); min-height: 400px; background: radial-gradient(ellipse at 86% 20%,#426758,transparent 72%),#19352c; }
+.hectaEntrance header .eyebrow { color: #f9d5a7; }
+.hectaEntrance h3 { font: normal clamp(3rem,7vw,6rem)/.95 var(--serif); letter-spacing: -.065em; margin: 12px 0 18px; }
+.hectaEntrance header p:last-of-type { line-height: 1.58; font-size: 1.1rem; max-width: 42ch; }
+.hectaFilters { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; }
+.hectaFilters div { background: #243b33; border-radius: 6px; padding: 8px 10px; }
+.hectaFilters dt { font-size: .875rem; color: #e9d1ab; }
+.hectaFilters dd { margin: 4px 0 0; }
+.hectaRecord { display: grid; gap: 6px; line-height: 1.5; }
+.hectaRecord p { margin: 0 0 6px; }
+.hectaCase { padding: clamp(22px,5vw,55px); border-top: 1px solid #ffffff35; }
+.hectaCase h4 { font: normal clamp(2rem,4vw,3.4rem)/1.08 var(--serif); margin: 0 0 20px; }
+.hectaCase dl { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 12px; margin: 0 0 22px; }
+.hectaCase dl div { background: #243b33; padding: 16px; border-radius: 8px; }
+.hectaCase dt, .hectaCase h5 { font-weight: bold; color: #f9d5a7; }
+.hectaCase dd { margin: 8px 0 0; line-height: 1.55; }
+.hectaCase h5 { font-size: 1.05rem; margin: 0; }
+.hectaCase p { line-height: 1.55; margin: 8px 0 0; max-width: 70ch; }
+@media (max-width: 760px) {
+  .hectaEntrance, .hectaCase dl { grid-template-columns: 1fr; }
+}

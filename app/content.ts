@@ -5,7 +5,7 @@ export const artworkCaption = 'My original fractal';
 export const projects = [
   {
     id: 'hecta', title: 'Hecta Proptech', short: 'Hecta', role: 'Tech Intern', date: 'May–June 2026',
-    summary: 'A property-search chatbot that retrieves relevant listings before it answers.',
+    summary: 'At Hecta Proptech, I worked on a property-search chatbot. I introduced retrieval-augmented generation (RAG) and wrote Python search logic using regex and fuzzy matching.',
     contribution: 'Helped introduce retrieval-augmented generation. I wrote Python retrieval logic using regex and fuzzy matching, contributed context-aware chunking and query tuning, and evaluated local and on-premises models before the move to Azure. The chatbot used Qdrant similarity search and SQL lookups to find listings and answer follow-up questions.',
     tags: ['Python', 'RAG', 'Qdrant'], video: '', poster: '', url: '',
     demo: 'Sample-data demo', steps: [],
@@ -56,3 +56,11 @@ export const veccRuns = [
   { device: 'CPU', time: '2,892 ms', video: '/vecc-cpu.mp4', poster: '/vecc-cpu.webp', scope: '' },
   { device: 'GPU', time: '783 ms', video: '/vecc-gpu.mp4', poster: '/vecc-gpu.webp', scope: 'The HIP timer included saving grid snapshots. Video rendering was outside that timed code.' },
 ];
+
+export const hectaCase = {
+  input: '2bhk flat in Gachibowlii',
+  challenge: 'A shorthand bedroom count and a misspelled neighborhood make exact matching brittle.',
+  change: 'I used regex to extract structured clues from the query and fuzzy matching to find likely matches for misspelled or partial location names.',
+  result: 'The chatbot could use the intended neighborhood and bedroom count to retrieve relevant listings even when the search text didn’t match the listing exactly.',
+  models: 'I evaluated local language and embedding models for on-premises deployment, comparing retrieval quality, latency, model size, and quantization. I also supported the move to Azure.',
+};

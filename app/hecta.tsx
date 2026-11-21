@@ -1,17 +1,13 @@
 'use client';
 
-import { useEffect, useState, type FormEvent } from 'react';
-import { useReducedMotion } from 'motion/react';
-import { projects } from './content';
+import { useState, type FormEvent } from 'react';
+import { hectaCase, projects } from './content';
 import s from './portfolio.module.css';
 
-const opening = 'Are there 2 BHK flats in Gachibowli under ₹80 lakh?';
-const followUp = 'Does it have parking?';
-const listings = [
-  { id: 'H-104', area: 'Gachibowli', rooms: 2, price: 76, parking: true },
-  { id: 'H-218', area: 'Gachibowli', rooms: 2, price: 88, parking: false },
-  { id: 'H-306', area: 'Kondapur', rooms: 2, price: 73, parking: true },
-];
+const opening = 'Show me flats in Hyderabad under ₹50 lakh.';
+const listing = { id: 'H-104', area: 'Miyapur', city: 'Hyderabad', rooms: 2, price: 46 };
+const answer = `I found a ${listing.rooms} BHK flat in ${listing.area}, ${listing.city}, for ₹${listing.price} lakh. [${listing.id}]`;
+const stages = ['Question', 'Filters', 'Retrieved listing', 'Answer'];
 
 const profile = [
   ...projects.map(project => ({
@@ -28,21 +24,11 @@ function tokens(value: string) {
   return value.toLowerCase().match(/[\p{L}\d]+/gu) ?? [];
 }
 
-export function Hecta() {
+export function Hecta({ project }: { project: (typeof projects)[number] }) {
   const [mode, setMode] = useState<'listings' | 'profile'>('listings');
-  const [stage, setStage] = useState(0);
-  const reduced = useReducedMotion();
-  const running = stage > 0 && stage < 4;
-  useEffect(() => {
-    if (!running || mode !== 'listings') return;
-    const timer = window.setTimeout(() => setStage(stage + 1), reduced ? 350 : 950);
-    return () => window.clearTimeout(timer);
-  }, [running, stage, mode, reduced]);
-  const [follow, setFollow] = useState(false);
+  const [stage, setStage] = useState(-1);
   const [query, setQuery] = useState('');
   const [asked, setAsked] = useState('');
-  const ranked = listings.toSorted((a, b) => Number(b.area === 'Gachibowli') - Number(a.area === 'Gachibowli'));
-  const match = ranked.find(item => item.area === 'Gachibowli' && item.rooms === 2 && item.price < 80)!;
   const words = new Set(tokens(asked));
   const sources = profile.map(entry => ({
     entry,
@@ -54,29 +40,41 @@ export function Hecta() {
     if (query.trim()) setAsked(query.trim());
   }
 
-  return <div className={s.demo}>
-    <div className={s.controls} aria-label="Demo mode">
+  return <article id="hecta" className={s.hectaRoom} aria-labelledby="hecta-title">
+    <div className={s.hectaEntrance}>
+      <header>
+        <p className={s.eyebrow}>{project.role} · {project.date}</p>
+        <h3 id="hecta-title">{project.title}</h3>
+        <p>{project.summary}</p>
+        <ul className={s.tags}>{project.tags.map(tag => <li key={tag}>{tag}</li>)}</ul>
+      </header>
+      <div className={s.demo}>
+    <div className={s.controls} role="group" aria-label="Demo mode">
       <button aria-pressed={mode === 'listings'} onClick={() => setMode('listings')}>Property chatbot</button>
       <button aria-pressed={mode === 'profile'} onClick={() => setMode('profile')}>Ask about Asmita</button>
     </div>
     {mode === 'listings' ? <>
       <div className={s.chat} aria-live="polite">
-        <span className={s.demoLabel}>Property search · Sample data</span>
+        <span className={s.demoLabel}>Sample-data replay</span>
+        {stage >= 0 && <strong>Step {stage + 1} of {stages.length} · {stages[stage]}</strong>}
         <p className={s.question}>{opening}</p>
-        {follow && <>
-          <p className={s.chatReply}>I found a {match.rooms} BHK in {match.area} at ₹{match.price} lakh. <strong>[{match.id}]</strong></p>
-          <p className={s.question}>{followUp}</p>
-        </>}
-        {stage >= 1 && <ol className={s.trace} aria-label="Retrieval activity">
-          <li><strong>Qdrant similarity search</strong><span>{follow ? 'Keep the matching listing in context.' : 'Rank available listings by relevance to the question.'}</span></li>
-          {stage >= 2 && <li><strong>SQL lookup</strong><span>{follow ? 'Check the parking field for listing ' + match.id + '.' : 'Verify the neighborhood, bedroom count, and budget.'}</span></li>}
-          {stage >= 3 && <li><strong>Prepare answer</strong><span>Use the verified record and cite the listing.</span></li>}
-        </ol>}
-        {stage === 4 && <p className={s.chatReply}>{follow ? (match.parking ? 'Yes, this listing includes parking.' : 'This listing has no parking.') : `I found a ${match.rooms} BHK in ${match.area} at ₹${match.price} lakh.`} <strong>[{match.id}]</strong></p>}
+        {stage === 1 && <dl className={s.hectaFilters}>
+          <div><dt>Property type</dt><dd>Flat</dd></div>
+          <div><dt>City</dt><dd>Hyderabad</dd></div>
+          <div><dt>Price</dt><dd>Below ₹50 lakh</dd></div>
+        </dl>}
+        {stage === 2 && <div className={s.hectaRecord}>
+          <p>Qdrant similarity search surfaces relevant records. The SQL lookup checks property type, city, and price against the extracted filters.</p>
+          <strong>{listing.rooms} BHK flat · {listing.area}, {listing.city}</strong>
+          <span>₹{listing.price} lakh · Sample listing {listing.id}</span>
+        </div>}
+        {(stage === -1 || stage === 3) && <p className={s.chatReply}>{answer}</p>}
       </div>
       <div className={s.controls}>
-        <button className={s.runButton} disabled={running} onClick={() => { setFollow(false); setStage(1); }}>{running ? 'Searching…' : stage === 0 ? 'Search' : 'Search again'}</button>
-        {stage === 4 && !follow && <button onClick={() => { setFollow(true); setStage(1); }}>{followUp}</button>}
+        {stage === -1 ? <button className={s.runButton} onClick={() => setStage(0)}>See how one query works</button> : <>
+          <button disabled={stage === 0} onClick={() => setStage(stage - 1)}>Back</button>
+          <button className={s.runButton} onClick={() => setStage(stage === 3 ? -1 : stage + 1)}>{stage === 3 ? 'Finish replay' : 'Next: ' + stages[stage + 1]}</button>
+        </>}
       </div>
     </> : <div className={s.demoBody}>
       <p className={s.demoLabel}>Searches portfolio facts in your browser.</p>
@@ -92,5 +90,17 @@ export function Hecta() {
         {asked && (sources.length ? sources.map(({entry}) => <div className={s.answer} key={entry.href}>{entry.answer} <a href={entry.href}>{entry.title}</a></div>) : <p>I couldn’t find a matching portfolio entry. Try a project name, skill, or hobby.</p>)}
       </div>
     </div>}
-  </div>;
+      </div>
+    </div>
+    <section className={s.hectaCase} aria-labelledby="hecta-case-title">
+      <h4 id="hecta-case-title">Making search handle typos and shorthand</h4>
+      <dl>
+        <div><dt>Illustrative input</dt><dd><code>{hectaCase.input}</code><p>{hectaCase.challenge}</p></dd></div>
+        <div><dt>What I changed in Python</dt><dd>{hectaCase.change}</dd></div>
+        <div><dt>What it helped the chatbot do</dt><dd>{hectaCase.result}</dd></div>
+      </dl>
+      <h5>Researching local models</h5>
+      <p>{hectaCase.models}</p>
+    </section>
+  </article>;
 }
