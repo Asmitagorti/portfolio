@@ -50,7 +50,7 @@ function Replay({ project }: { project: Project }) {
 
 function Research({ project }: { project: Project }) {
   const [view, setView] = useState<'fractal' | 'comparison'>('fractal');
-  return <article id="vecc" className={s.hectaRoom} aria-labelledby="vecc-title">
+  return <article id="vecc" className={s.hectaRoom + " " + s.veccPalette} aria-labelledby="vecc-title">
     <div className={s.hectaEntrance}>
       <header>
         <p className={s.eyebrow}>{[project.role, project.date, project.location].filter(Boolean).join(' · ')}</p>
@@ -100,7 +100,7 @@ function Crochet({ project }: { project: Project }) {
         <motion.span className={s.crochetYarn} aria-hidden="true" initial={reduced ? false : { x: -24, rotate: -130 }} whileInView={{ x: 0, rotate: 0 }} viewport={{ once: true }} transition={{ duration: reduced ? 0 : .7 }}>🧶</motion.span>
         <h3 id="crochet-title">{project.title}</h3>
         <p>{project.summary}</p>
-        <p>The site uses Next.js 16 and MongoDB. I built stock reservations, order tracking, and server-side Razorpay payment verification.</p>
+        <p>The site uses Next.js 16 and MongoDB. I built synced carts, stock reservations, order tracking, and server-side Razorpay payment verification.</p>
         <div className={s.crochetLinks}>
           <a href={shop} target="_blank" rel="noreferrer">Visit Campus Crochet</a>
           {project.url && <a href={project.url} target="_blank" rel="noreferrer">GitHub repository</a>}

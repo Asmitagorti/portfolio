@@ -14,7 +14,7 @@ export const projects = [
     id: 'vecc', title: 'VECC / BARC', short: 'VECC / BARC', role: 'Research Intern', date: 'December 4–18, 2025', location: 'Kolkata, India',
     summary: 'During my internship at VECC, I created my own fractal and ran the same grid simulation on a CPU and a GPU to see how the timings compared.',
     contribution: 'I implemented matrix multiplication and the 1,000 × 1,000 grid simulation on CPU and GPU. My technical report received an Excellent rating.',
-    detail: 'I benchmarked FP64, FP32, and FP16 on a 500-million-element vector using HIP.',
+    detail: 'I benchmarked FP64, FP32, and FP16 on a 500-million-element vector using HIP, tracking time and memory.',
     tags: ['C++', 'HIP', 'GPU computing'], video: '', poster: '',
     url: 'https://drive.google.com/file/d/181M8qtFGiQ2TKXyD_oohr-i9CMC-u2OI/view?usp=sharing',
     demo: 'Grid simulation', steps: [],
@@ -58,7 +58,7 @@ export const veccRuns = [
 ];
 
 export const hectaCase = {
-  retrieval: 'I built the Qdrant retrieval pipeline, added context-aware chunking, and tuned production queries.',
+  retrieval: 'I built the Qdrant retrieval pipeline with embeddings and reranking, added context-aware chunking, and tuned production queries.',
   input: '2bhk flat in Gachibowlii',
   challenge: 'Shorthand and a misspelled neighborhood.',
   change: 'Regex extracted the bedroom count. Fuzzy matching resolved the location.',

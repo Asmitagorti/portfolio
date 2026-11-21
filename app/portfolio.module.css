@@ -189,3 +189,14 @@
 .crochetLinks a { display: inline-block; margin: 8px 16px 0 0; text-underline-offset: 4px; }
 @media (max-width: 760px) { .crochetMedia { grid-template-columns: 1fr; } }
 .hectaCase h5.localModels { margin-top: 18px; }
+
+.hectaRoom.veccPalette { background: #342133; border-color: #c594b887; }
+.veccPalette .hectaEntrance { background: radial-gradient(ellipse at 86% 20%, #75415f, transparent 72%), #452840; }
+.veccPalette .hectaEntrance header .eyebrow { color: #ffd1e2; }
+.veccPalette .demo { background: #261c28; }
+.veccPalette .veccChoices button { background: #482c43; }
+.veccPalette .veccChoices button[aria-pressed="true"] { color: #2d1c29; background: #f3c5db; }
+.veccPalette .veccRuns section { background: #482c43; }
+.veccPalette .timingTrack { background: #2b1b2b; }
+.veccPalette .timingTrack span { background: #d6a4dd; }
+.veccPalette .veccRuns section + section .timingTrack span { background: #f1bdc6; }
