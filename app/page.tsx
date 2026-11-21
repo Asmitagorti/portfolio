@@ -2,8 +2,9 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { motion, useReducedMotion } from 'motion/react';
-import { artwork, artworkCaption, benchmarkRuns, gallery, projects, resume, soundtrack } from './content';
+import { artwork, artworkCaption, crochetPhotos, gallery, precisionRuns, projects, resume, shop, simulations, soundtrack } from './content';
 import s from './portfolio.module.css';
+import { Hecta } from './hecta';
 
 type Project = (typeof projects)[number];
 
@@ -11,7 +12,7 @@ function Plane() {
   return <svg viewBox="0 0 60 54" width="54" aria-hidden="true"><path d="M3 22 57 3 40 49 29 33 19 43 19 29 3 22Z M19 29 57 3 29 33" fill="#efd9a7" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round"/></svg>;
 }
 
-function Video({ project }: { project: Project }) {
+function Video({ video: source, poster, title }: { video: string; poster: string; title: string }) {
   const ref = useRef<HTMLVideoElement>(null);
   const reduced = useReducedMotion();
   useEffect(() => {
@@ -19,13 +20,13 @@ function Video({ project }: { project: Project }) {
     if (!video) return;
     const observer = new IntersectionObserver(([entry]) => {
       if (entry.isIntersecting) {
-        if (!video.src) video.src = project.video;
+        if (!video.src) video.src = source;
       } else video.pause();
     }, { rootMargin: '180px' });
     observer.observe(video);
     return () => observer.disconnect();
-  }, [project.video]);
-  return <video ref={ref} muted playsInline controls preload={reduced ? 'none' : 'metadata'} poster={project.poster || undefined} aria-label={project.title + ' demo'} />;
+  }, [source]);
+  return <video ref={ref} muted playsInline controls preload={reduced ? 'none' : 'metadata'} poster={poster || undefined} aria-label={title} />;
 }
 
 function Replay({ project }: { project: Project }) {
@@ -53,7 +54,6 @@ function Replay({ project }: { project: Project }) {
     <div className={s.demoBody} aria-live="polite">
       <span className={s.demoLabel}>{project.steps[step][0]}</span>
       <p>{project.steps[step][1]}</p>
-      {project.id === 'hecta' && step === 0 && <div className={s.answer}>Sample match · 2 BHK in Gachibowli · ₹76 lakh</div>}
     </div>
     <div className={s.controls}>
       <button onClick={() => { if (playing) setPlaying(false); else { setStep(0); setPlaying(true); } }}>{playing ? 'Pause' : 'Replay'}</button>
@@ -63,46 +63,33 @@ function Replay({ project }: { project: Project }) {
 }
 
 function Research() {
-  const [simulation, setSimulation] = useState(false);
-  const [playing, setPlaying] = useState(false);
-  const [frame, setFrame] = useState(0);
-  const ref = useRef<HTMLCanvasElement>(null);
-  useEffect(() => {
-    if (!simulation || !playing) return;
-    const timer = window.setInterval(() => setFrame(value => {
-      return Math.min(value + 1, 27);
-    }), 125);
-    return () => window.clearInterval(timer);
-  }, [playing, simulation]);
-  useEffect(() => {
-    if (frame === 27) setPlaying(false);
-  }, [frame]);
-  useEffect(() => {
-    const context = ref.current?.getContext('2d');
-    if (!simulation || !context) return;
-    for (let y = 0; y < 40; y++) {
-      for (let x = 0; x < 72; x++) {
-        const radius = Math.min(Math.hypot(x - 29, y - 19), Math.hypot(x - 53, y - 26) + 7);
-        const texture = Math.sin(x * 1.4 + y * 0.6) * 1.8 + Math.cos(y * 1.1) * 1.2;
-        const distance = radius + texture - frame;
-        context.fillStyle = distance > 0 ? '#252e33' : distance > -4 ? '#f98c9b' : '#884b88';
-        context.fillRect(x * 5, y * 5, 4, 4);
-      }
-    }
-  }, [simulation, frame]);
+  const [view, setView] = useState<'Fractal' | keyof typeof simulations>('Fractal');
+  const clip = view === 'Fractal' ? null : simulations[view];
   return <div className={s.research}>
-    <div className={s.controls}>
-      <button aria-pressed={!simulation} onClick={() => { setSimulation(false); setPlaying(false); }}>Fractal</button>
-      <button aria-pressed={simulation} onClick={() => setSimulation(true)}>Simulation</button>
+    <div className={s.controls} aria-label="VECC media">
+      {(['Fractal', 'CPU', 'GPU'] as const).map(option => <button key={option} aria-pressed={view === option} onClick={() => setView(option)}>{option === 'Fractal' ? option : option + ' simulation'}</button>)}
     </div>
-    {simulation ? <>
-      <canvas ref={ref} width={360} height={200} aria-label="Illustrative grid visualization" role="img" />
-      <div className={s.controls}><button onClick={() => { if (frame === 27) setFrame(0); setPlaying(!playing); }}>{playing ? 'Pause' : frame === 27 ? 'Replay' : 'Play'}</button><button onClick={() => { setPlaying(false); setFrame(0); }}>Reset</button><span>Illustrative grid preview</span></div>
-    </> : <p className={s.artCaption}>{artworkCaption}</p>}
+    {clip ? <Video key={view} {...clip} title={view + ' grid simulation'} /> : <img className={s.fractalView} src={artwork} loading="lazy" alt={artworkCaption}/>}
     <div className={s.benchmarks} tabIndex={0}>
-      <table><caption>CPU and GPU benchmark conditions</caption><thead><tr><th scope="col">Run</th><th scope="col">Grid</th><th scope="col">Frame generation</th><th scope="col">Measured scope</th><th scope="col">Time</th></tr></thead>
-      <tbody>{benchmarkRuns.map(run => <tr key={run.device}><th scope="row">{run.device}</th><td>{run.grid}</td><td>{run.frames}</td><td>{run.scope}</td><td>{run.timing}</td></tr>)}</tbody></table>
+      <table><caption>1,000 × 1,000 grid · recorded timing overlays</caption><thead><tr><th scope="col">Run</th><th scope="col">Shown</th><th scope="col">Timing scope</th></tr></thead>
+      <tbody>{Object.entries(simulations).map(([device, run]) => <tr key={device}><th scope="row">{device}</th><td className={s.timing}>{run.time}</td><td>{run.scope}</td></tr>)}</tbody></table>
     </div>
+    <details className={s.precision}>
+      <summary>Separate HIP precision benchmark</summary>
+      <p>500-million-element vector. Original reported values. The FP64 host-to-device time exceeds the reported total, so the total needs verification.</p>
+      <div className={s.benchmarks} tabIndex={0} aria-label="Precision benchmark results">
+        <table><thead><tr>{['Precision', 'hipMalloc (µs)', 'H→D (µs)', 'Kernel launch (µs)', 'D→H (µs)', 'Memory (MiB)', 'Reported total (µs)'].map(label => <th key={label} scope="col">{label}</th>)}</tr></thead>
+        <tbody>{precisionRuns.map(([precision, ...values]) => <tr key={precision}><th scope="row">{precision}</th>{values.map((value, index) => <td key={index}>{value}</td>)}</tr>)}</tbody></table>
+      </div>
+    </details>
+  </div>;
+}
+
+function Crochet() {
+  return <div className={s.demo}>
+    <div className={s.demoTop}>Campus Crochet · Collection preview</div>
+    <div className={s.shopPhotos}>{crochetPhotos.map(piece => <figure key={piece.title}><img src={piece.image} alt={piece.title} loading="lazy"/><figcaption>{piece.title}</figcaption></figure>)}</div>
+    <div className={s.controls}><a href={shop} target="_blank" rel="noreferrer">Visit the live site</a></div>
   </div>;
 }
 
@@ -165,7 +152,7 @@ export default function Home() {
               <ul className={s.tags}>{project.tags.map(tag => <li key={tag}>{tag}</li>)}</ul>
               <div className={s.projectLinks}><a href={'#' + project.id} aria-label={'Permalink to ' + project.title}>Project link</a>{project.url && <a href={project.url} target="_blank" rel="noreferrer">{project.id === 'vecc' ? 'Internship certificate' : 'GitHub repository'}</a>}</div>
             </div>
-            <div className={s.projectMedia}>{project.video && <Video project={project}/>} {project.id === 'vecc' ? <Research/> : <Replay project={project}/>}</div>
+            <div className={s.projectMedia}>{project.video && <Video {...project}/>} {project.id === 'vecc' ? <Research/> : project.id === 'hecta' ? <Hecta/> : project.id === 'crochet' ? <Crochet/> : <Replay project={project}/>}</div>
           </article>)}</div>
         </div>
         <audio ref={audio} preload="none" loop src={soundtrack}/>

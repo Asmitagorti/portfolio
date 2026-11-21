@@ -6,13 +6,9 @@ export const projects = [
   {
     id: 'hecta', title: 'Hecta Proptech', short: 'Hecta', role: 'Tech Intern', date: 'May–June 2026',
     summary: 'A property-search chatbot that retrieves relevant listings before it answers.',
-    contribution: 'Helped introduce retrieval-augmented generation. I wrote Python retrieval logic using regex and fuzzy matching, contributed context-aware chunking and query tuning, and evaluated local and on-premises models before the move to Azure.',
+    contribution: 'Helped introduce retrieval-augmented generation. I wrote Python retrieval logic using regex and fuzzy matching, contributed context-aware chunking and query tuning, and evaluated local and on-premises models before the move to Azure. The chatbot used Qdrant similarity search and SQL lookups to find listings and answer follow-up questions.',
     tags: ['Python', 'RAG', 'Qdrant'], video: '', poster: '', url: '',
-    demo: 'Sample-data replay', steps: [
-      ['Property search', 'Are there 2 BHK flats in Gachibowli under ₹80 lakh?'],
-      ['Retrieve', 'Parse the budget and bedroom count, then retrieve and rerank matching listings.'],
-      ['Answer', 'One sample match: a 2 BHK in Gachibowli at ₹76 lakh. The answer cites sample listing H-104.'],
-    ],
+    demo: 'Sample-data demo', steps: [],
   },
   {
     id: 'vecc', title: 'VECC / BARC', short: 'VECC / BARC', role: 'Research Intern', date: 'December 4–18, 2025',
@@ -25,9 +21,9 @@ export const projects = [
   {
     id: 'crochet', title: 'Campus Crochet', short: 'Campus Crochet', role: 'Independent project', date: '',
     summary: 'A campus poll that grew into a storefront for my handmade keychains and amigurumi.',
-    contribution: 'I started with a poll to learn what students wanted me to make. I later launched ordering and checkout with a MongoDB catalog, stock reservations, order tracking, and server-side Razorpay payment verification.',
+    contribution: 'I started with a poll to learn what students wanted me to make. I built a full storefront with a MongoDB catalog, stock reservations, order tracking, and server-side Razorpay payment verification. The live site currently shows the poll, with orders and payments paused.',
     tags: ['Next.js', 'MongoDB', 'Razorpay'], video: '', poster: '', url: 'https://github.com/Asmitagorti/campus-crochet',
-    demo: 'Illustrative campus poll', steps: [['Campus Crochet', 'What should I crochet next?'], ['Cast a vote', 'Choose between a keychain and amigurumi.'], ['Vote recorded', 'The poll gave students a say in what I made next.']],
+    demo: 'Campus Crochet', steps: [],
   },
   {
     id: 'armor', title: 'Armor Browser', short: 'Armor Browser', role: 'Team prototype', date: '',
@@ -44,12 +40,22 @@ export const projects = [
     demo: 'Recreated assessment flow', steps: [['Check in', 'Start the 10-question assessment.'], ['Assessment result', 'A sample response set returns Moderate.'], ['Next steps', 'The prototype offers tips and a follow-up chat.']],
   },
 ];
-export const benchmarkRuns = [
-  { device: 'CPU', grid: '1,000 × 1,000', frames: 'To confirm', scope: 'To confirm', timing: 'Pending' },
-  { device: 'GPU', grid: '1,000 × 1,000', frames: 'To confirm', scope: 'To confirm', timing: 'Pending' },
+export const shop = 'https://campus-crochet.tech';
+export const crochetPhotos = [
+  { title: 'Crochet plush', image: '/crochet-plush.webp', caption: 'Handmade plush from Campus Crochet.' },
+  { title: 'Crochet bag', image: '/crochet-bag.webp', caption: 'A handmade bag from Campus Crochet.' },
+];
+export const simulations = {
+  CPU: { video: '/vecc-cpu.mp4', poster: '/vecc-cpu.webp', time: '2,892 ms', scope: 'Clip overlay. Timing boundaries and frame generation unconfirmed.' },
+  GPU: { video: '/vecc-gpu.mp4', poster: '/vecc-gpu.webp', time: '783 ms', scope: 'Clip overlay. In the supplied GPU code, the timed region includes allocation, transfers, simulation updates and grid snapshot writes. Video rendering is outside that code.' },
+};
+export const precisionRuns = [
+  ['FP64', '1,405,284', '52,403,136', '14,895', '179', '7,360', '46,781,519'],
+  ['FP32', '99,128', '557,297', '595', '931,878', '7,632', '3,110,999'],
+  ['FP16', '455,278', '339,491', '501', '456,143', '3,956', '3,122,435'],
 ];
 export const gallery = [
-  { title: 'Crochet', image: '', caption: 'Keychains and amigurumi, made by hand.' },
+  ...crochetPhotos,
   { title: 'Handmade cards', image: '', caption: 'Paper, folds, and small details.' },
   { title: 'Travel', image: '', caption: 'Photos and memories from places I’ve lived and visited.' },
   { title: 'Violin', image: '', caption: 'I play with my college music club and won its solo instrumental competition.' },

@@ -115,3 +115,19 @@
 @media (prefers-reduced-motion:reduce) {
   :global(html) { scroll-behavior:auto; }
 }
+.trace { padding-left: 22px; line-height: 1.5; font-size: .94rem; }
+.trace li + li { margin-top: 8px; }
+.ask { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; margin: 14px 0; }
+.ask label { grid-column: 1 / -1; }
+.ask input, .ask button { min-width: 0; padding: 9px; border: 1px solid #ffffff59; border-radius: 5px; font: inherit; }
+.ask button { background: #e8d3a8; color: #241c15; }
+.answer a { display: inline-block; }
+.fractalView { display: block; width: 100%; max-height: 220px; object-fit: cover; }
+.timing { white-space: nowrap; }
+.precision { border-top: 1px solid #fff4; padding: 12px; }
+.precision summary { cursor: pointer; font-weight: bold; }
+.precision p { font-size: .875rem; line-height: 1.5; }
+.shopPhotos { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 12px; }
+.shopPhotos figure { margin: 0; min-width: 0; }
+.shopPhotos img { display: block; width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 5px; }
+.shopPhotos figcaption { padding-top: 6px; font-size: .875rem; }
