@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { motion, useReducedMotion } from 'motion/react';
-import { artwork, artworkCaption, crochetPhotos, gallery, projects, resume, shop, soundtrack } from './content';
+import { artwork, artworkCaption, crochetPhotos, gallery, projects, resume, shop, soundtrack, veccRuns } from './content';
 import s from './portfolio.module.css';
 import { Hecta } from './hecta';
 
@@ -48,18 +48,47 @@ function Replay({ project }: { project: Project }) {
   </div>;
 }
 
-function Research() {
-  return <div className={s.research}>
-    <figure className={s.artwork}>
-      <a href={artwork} target="_blank" rel="noreferrer" aria-label="Open full-size fractal study">
-        <img className={s.fractalView} src={artwork} width={900} height={900} loading="lazy" alt="Crimson curves and fine diagonal lines on a dark field"/>
-      </a>
-      <figcaption>{artworkCaption} <a href={artwork} target="_blank" rel="noreferrer">Open full size</a></figcaption>
-    </figure>
-    <div className={s.researchHighlight}>
-      <strong>1,000 × 1,000</strong><span>Grid used in the CPU and GPU implementations</span>
+function Research({ project }: { project: Project }) {
+  const reduced = useReducedMotion();
+  const [view, setView] = useState<'fractal' | 'comparison'>('fractal');
+  return <article id="vecc" className={s.vecc} aria-labelledby="vecc-title">
+    <header className={s.veccEntrance}>
+      <img src={artwork} alt="" loading="lazy" className={s.veccBackdrop}/>
+      <motion.div className={s.veccIntro} initial={false} whileInView={{ y: 0 }}
+        viewport={{ once: true }} transition={{ duration: reduced ? 0 : .45 }}
+        style={{ y: reduced ? 0 : 12 }}>
+        <p className={s.eyebrow}>{project.role} · {project.date}</p>
+        <h3 id="vecc-title">{project.title}</h3>
+        <p>{project.summary}</p>
+      </motion.div>
+    </header>
+    <div className={s.veccInterior}>
+      <div className={s.veccChoices} role="group" aria-label="VECC project views">
+        <button aria-pressed={view === 'fractal'} aria-controls="vecc-preview" onClick={() => setView('fractal')}>Fractal</button>
+        <button aria-pressed={view === 'comparison'} aria-controls="vecc-preview" onClick={() => setView('comparison')}>CPU vs GPU</button>
+      </div>
+      <div id="vecc-preview">
+        {view === 'fractal' ? <figure className={s.veccFigure}>
+          <a href={artwork} target="_blank" rel="noreferrer" aria-label="Open full-size fractal study">
+            <img className={s.fractalView} src={artwork} width={900} height={900} loading="lazy" alt="Crimson curves and fine diagonal lines on a dark field"/>
+          </a>
+          <figcaption>{artworkCaption}</figcaption>
+        </figure> : <div>
+          <p className={s.veccGridLabel}>1,000 × 1,000 grid · Final timings shown in the recordings</p>
+          <div className={s.veccRuns}>{veccRuns.map(run => <section key={run.device} aria-label={run.device + ' recording'}>
+            <div className={s.veccRunHead}><h4>{run.device}</h4><strong>{run.time}</strong></div>
+            <Video {...run} title={run.device + ' grid simulation'}/>
+            {run.scope && <p>{run.scope}</p>}
+          </section>)}</div>
+        </div>}
+      </div>
+      <details className={s.veccTechnical}>
+        <summary>Technical details</summary>
+        <p>{project.contribution}</p>
+        {project.url && <a href={project.url} target="_blank" rel="noreferrer">Internship certificate</a>}
+      </details>
     </div>
-  </div>;
+  </article>;
 }
 
 function Crochet() {
@@ -112,12 +141,6 @@ export default function Home() {
           <p className={s.intro}>I’m a computer science student who builds software from scratch, from search systems to tools for my campus. Away from the keyboard, I crochet and make things by hand.</p>
           <div className={s.actions}><a className={s.primary} href="#work">View work</a><a className={s.secondary} href={resume} target="_blank" rel="noreferrer">Résumé</a></div>
         </div>
-        <aside className={s.heroIndex} aria-label="Featured projects">
-          <h2>Featured projects</h2>
-          <a href="#hecta"><strong>Property search</strong><span>Hecta Proptech · Retrieval and ranking</span></a>
-          <a href="#vecc"><strong>Parallel computing</strong><span>VECC / BARC · HIP and fractal studies</span></a>
-          <a href="#crochet"><strong>Campus Crochet</strong><span>Full-stack storefront for handmade work</span></a>
-        </aside>
         <motion.div aria-hidden="true" className={s.plane} initial={reduced ? false : { x: -150, y: 65, opacity: 0 }} animate={{ x: 0, y: 0, opacity: 1 }} transition={{ duration: reduced ? 0 : 1.4, ease: 'easeOut' }}><Plane/></motion.div>
       </section>
 
@@ -125,16 +148,16 @@ export default function Home() {
         <div className={s.sectionInner}>
           <div className={s.sectionHead}><h2>Selected work<span>.</span></h2><p>Internships & independent projects</p></div>
           <nav className={s.projectNav} aria-label="Jump to a project">{projects.map(project => <a key={project.id} href={'#' + project.id}>{project.short}</a>)}</nav>
-          <div className={s.rooms}>{projects.map(project => <article key={project.id} id={project.id} className={s.room} data-project={project.id} style={project.poster ? { backgroundImage: 'linear-gradient(90deg, #151016f5, #15101655), url(' + project.poster + ')' } : undefined}>
+          <div className={s.rooms}>{projects.map(project => project.id === 'vecc' ? <Research key={project.id} project={project}/> : <article key={project.id} id={project.id} className={s.room} data-project={project.id} style={project.poster ? { backgroundImage: 'linear-gradient(90deg, #151016f5, #15101655), url(' + project.poster + ')' } : undefined}>
             <div className={s.projectCopy}>
               <p className={s.eyebrow}>{project.role}{project.date && ' · ' + project.date}</p>
               <h3>{project.title}</h3>
               <p className={s.summary}>{project.summary}</p>
               <p>{project.contribution}</p>
               <ul className={s.tags}>{project.tags.map(tag => <li key={tag}>{tag}</li>)}</ul>
-              <div className={s.projectLinks}><a href={'#' + project.id} aria-label={'Permalink to ' + project.title}>Project link</a>{project.url && <a href={project.url} target="_blank" rel="noreferrer">{project.id === 'vecc' ? 'Internship certificate' : 'GitHub repository'}</a>}</div>
+              <div className={s.projectLinks}><a href={'#' + project.id} aria-label={'Permalink to ' + project.title}>Project link</a>{project.url && <a href={project.url} target="_blank" rel="noreferrer">{'GitHub repository'}</a>}</div>
             </div>
-            <div className={s.projectMedia}>{project.video && <Video {...project}/>} {project.id === 'vecc' ? <Research/> : project.id === 'hecta' ? <Hecta/> : project.id === 'crochet' ? <Crochet/> : <Replay project={project}/>}</div>
+            <div className={s.projectMedia}>{project.video && <Video {...project}/>} {project.id === 'hecta' ? <Hecta/> : project.id === 'crochet' ? <Crochet/> : <Replay project={project}/>}</div>
           </article>)}</div>
         </div>
         <audio ref={audio} preload="none" loop src={soundtrack}/>

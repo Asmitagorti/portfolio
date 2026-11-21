@@ -12,7 +12,7 @@ export const projects = [
   },
   {
     id: 'vecc', title: 'VECC / BARC', short: 'VECC / BARC', role: 'Research Intern', date: 'December 4–18, 2025',
-    summary: 'An exploration of parallel computing through HIP benchmarks, a grid simulation, and custom Mandelbrot fractals.',
+    summary: 'During my internship at VECC, I created my own fractal and ran the same grid simulation on a CPU and a GPU to see how the timings compared.',
     contribution: 'I implemented CPU and GPU versions of matrix multiplication and a 1,000 × 1,000 virus-spread simulation, benchmarked floating-point formats, and presented my findings in a technical report.',
     tags: ['C++', 'HIP', 'GPU computing'], video: '', poster: '',
     url: 'https://drive.google.com/file/d/181M8qtFGiQ2TKXyD_oohr-i9CMC-u2OI/view?usp=sharing',
@@ -50,4 +50,9 @@ export const gallery = [
   { title: 'Handmade cards', image: '', caption: 'Paper, folds, and small details.' },
   { title: 'Travel', image: '', caption: 'Photos and memories from places I’ve lived and visited.' },
   { title: 'Violin', image: '', caption: 'I play with my college music club and won its solo instrumental competition.' },
+];
+
+export const veccRuns = [
+  { device: 'CPU', time: '2,892 ms', video: '/vecc-cpu.mp4', poster: '/vecc-cpu.webp', scope: '' },
+  { device: 'GPU', time: '783 ms', video: '/vecc-gpu.mp4', poster: '/vecc-gpu.webp', scope: 'The HIP timer included saving grid snapshots. Video rendering was outside that timed code.' },
 ];
