@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { motion, useReducedMotion } from 'motion/react';
-import { artwork, artworkCaption, crochetPhotos, crochetVote, gallery, projects, resume, shop, soundtrack, veccRuns } from './content';
+import { artwork, artworkCaption, crochetPhotos, gallery, projects, resume, shop, soundtrack, veccRuns } from './content';
 import s from './portfolio.module.css';
 import { Hecta } from './hecta';
 
@@ -93,29 +93,20 @@ function Research({ project }: { project: Project }) {
 
 function Crochet({ project }: { project: Project }) {
   const reduced = useReducedMotion();
-  const [playing, setPlaying] = useState(false);
   const piece = crochetPhotos[0];
   return <article id="crochet" className={s.crochetRoom} aria-labelledby="crochet-title">
-    <header>
-      <motion.span className={s.crochetYarn} aria-hidden="true" initial={reduced ? false : { x: -24, rotate: -130 }} whileInView={{ x: 0, rotate: 0 }} viewport={{ once: true }} transition={{ duration: reduced ? 0 : .7 }}>🧶</motion.span>
-      <h3 id="crochet-title">{project.title}</h3>
-      <p>{project.summary}</p>
-    </header>
     <div className={s.crochetMedia}>
+      <header>
+        <motion.span className={s.crochetYarn} aria-hidden="true" initial={reduced ? false : { x: -24, rotate: -130 }} whileInView={{ x: 0, rotate: 0 }} viewport={{ once: true }} transition={{ duration: reduced ? 0 : .7 }}>🧶</motion.span>
+        <h3 id="crochet-title">{project.title}</h3>
+        <p>{project.summary}</p>
+        <p>The site uses Next.js 16 and MongoDB. I built stock reservations, order tracking, and server-side Razorpay payment verification.</p>
+        <div className={s.crochetLinks}>
+          <a href={shop} target="_blank" rel="noreferrer">Visit Campus Crochet</a>
+          {project.url && <a href={project.url} target="_blank" rel="noreferrer">GitHub repository</a>}
+        </div>
+      </header>
       <figure><img src={piece.image} alt="Close-up of a handmade crochet plush" loading="lazy"/><figcaption>Handmade crochet plush</figcaption></figure>
-      <section aria-label="Voting replay">
-        {playing ? <video src={crochetVote.video} poster={crochetVote.poster} autoPlay muted playsInline controls aria-label="Illustrative Campus Crochet voting flow"/> : <img src={crochetVote.poster} alt="Still preview of the sample Campus Crochet voting flow" loading="lazy"/>}
-        <p>Illustrative replay using the same crochet plush.</p>
-        <button aria-pressed={playing} onClick={() => setPlaying(!playing)}>{playing ? 'Close replay' : 'Watch the voting flow'}</button>
-        <details><summary>Read the voting steps</summary><ol><li>Browse the available designs.</li><li>Select the crochet plush as a favorite.</li><li>Continue with Google to save the vote on the live site.</li></ol></details>
-      </section>
-    </div>
-    <div className={s.crochetStory}>
-      <h4>From a campus poll to pickup</h4>
-      <p>I’ll use the votes to plan what’s available for campus pickup. Ordering and payments are paused while voting is open.</p>
-      <details><summary>Storefront and admin implementation</summary><p>{project.detail}</p><p>{project.operations}</p></details>
-      <a href={shop} target="_blank" rel="noreferrer">Visit the voting site</a>
-      {project.url && <a href={project.url} target="_blank" rel="noreferrer">GitHub repository</a>}
     </div>
   </article>;
 }

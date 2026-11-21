@@ -179,19 +179,13 @@
 .veccRuns section + section .timingTrack span { background: #a7d8ba; }
 .crochetRoom { color: #432b32; background: #f8eae3; border: 1px solid #dcb7b5; border-radius: 12px; padding: clamp(20px,5vw,60px); }
 .crochetRoom h3 { margin: 8px 0 14px; font: normal clamp(2.8rem,6vw,5.8rem)/1 var(--serif); letter-spacing: -.06em; }
-.crochetRoom header p, .crochetStory p { max-width: 67ch; line-height: 1.6; }
+.crochetRoom header p { max-width: 67ch; line-height: 1.6; }
 .crochetYarn { display: inline-block; font-size: 2.35rem; }
-.crochetMedia { display: grid; grid-template-columns: minmax(0,.8fr) minmax(0,1.2fr); gap: clamp(14px,3vw,32px); margin: 24px 0; align-items: start; }
+.crochetMedia { display: grid; grid-template-columns: minmax(0,.8fr) minmax(0,1.2fr); gap: clamp(18px,5vw,56px); align-items: center; }
 .crochetMedia figure { margin: 0; }
-.crochetMedia img, .crochetMedia video { display: block; width: 100%; border-radius: 10px; }
+.crochetMedia img { display: block; width: 100%; border-radius: 10px; }
 .crochetMedia figure img { aspect-ratio: 4 / 3; object-fit: cover; object-position: center 42%; }
 .crochetMedia figcaption { margin-top: 8px; font-size: .9rem; }
-.crochetMedia button { border: 0; border-radius: 6px; padding: 10px 14px; color: #fff; background: #793f54; font-weight: bold; }
-.crochetMedia details { margin-top: 12px; }
-.crochetMedia summary { cursor: pointer; }
-.crochetStory { border-top: 1px solid #ac7a805c; padding-top: 18px; }
-.crochetStory h4 { font: normal clamp(1.9rem,4vw,3rem)/1.13 var(--serif); margin: 0; }
-.crochetStory a { display: inline-block; margin: 8px 16px 0 0; text-underline-offset: 4px; }
+.crochetLinks a { display: inline-block; margin: 8px 16px 0 0; text-underline-offset: 4px; }
 @media (max-width: 760px) { .crochetMedia { grid-template-columns: 1fr; } }
 .hectaCase h5.localModels { margin-top: 18px; }
-.crochetStory summary { cursor: pointer; width: fit-content; font-weight: bold; }

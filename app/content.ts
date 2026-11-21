@@ -21,10 +21,8 @@ export const projects = [
   },
   {
     id: 'crochet', title: 'Campus Crochet', short: 'Campus Crochet', role: 'Independent project', date: '',
-    summary: 'I crochet by hand, and I wanted to know what students on my campus would actually want me to make. So I built and launched a site where they could vote on their favorites.',
-    contribution: 'I built a campus voting site and a storefront for my handmade crochet.',
-    detail: 'Next.js 16 storefront with a MongoDB catalog, stock reservations, order tracking, and verified Razorpay payments.',
-    operations: 'Admin dashboard with email OTP and automated Resend order updates.',
+    summary: 'I built a storefront for my handmade crochet keychains and amigurumi for campus students.',
+    contribution: 'I built a Next.js 16 storefront with a MongoDB catalog, stock reservations, order tracking, and Razorpay payment verification.',
     tags: ['Next.js 16', 'MongoDB', 'Razorpay', 'Resend'], video: '', poster: '', url: 'https://github.com/Asmitagorti/campus-crochet',
     demo: 'Campus Crochet', steps: [],
   },
@@ -58,7 +56,6 @@ export const veccRuns = [
   { device: 'CPU', milliseconds: 2892, scope: '' },
   { device: 'GPU', milliseconds: 783, scope: 'The HIP timer included saving grid snapshots. Video rendering was outside that timed code.' },
 ];
-export const crochetVote = { video: '/crochet-vote.mp4', poster: '/crochet-vote-poster.webp' };
 
 export const hectaCase = {
   retrieval: 'I built the Qdrant retrieval pipeline, added context-aware chunking, and tuned production queries.',
