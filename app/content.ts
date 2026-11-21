@@ -20,7 +20,7 @@ export const projects = [
   },
   {
     id: 'crochet', title: 'Campus Crochet', short: 'Campus Crochet', role: 'Independent project', date: '',
-    summary: 'A campus poll that grew into a storefront for my handmade keychains and amigurumi.',
+    summary: 'I crochet by hand, and I wanted to know what students on my campus would actually want me to make. So I built and launched a site where they could vote on their favorites.',
     contribution: 'I started with a poll to learn what students wanted me to make. I built a full storefront with a MongoDB catalog, stock reservations, order tracking, and server-side Razorpay payment verification. The live site currently shows the poll, with orders and payments paused.',
     tags: ['Next.js', 'MongoDB', 'Razorpay'], video: '', poster: '', url: 'https://github.com/Asmitagorti/campus-crochet',
     demo: 'Campus Crochet', steps: [],
@@ -43,7 +43,6 @@ export const projects = [
 export const shop = 'https://campus-crochet.tech';
 export const crochetPhotos = [
   { title: 'Crochet plush', image: '/crochet-plush.webp', caption: 'Handmade plush from Campus Crochet.' },
-  { title: 'Crochet bag', image: '/crochet-bag.webp', caption: 'A handmade bag from Campus Crochet.' },
 ];
 export const gallery = [
   ...crochetPhotos,
@@ -53,9 +52,10 @@ export const gallery = [
 ];
 
 export const veccRuns = [
-  { device: 'CPU', time: '2,892 ms', video: '/vecc-cpu.mp4', poster: '/vecc-cpu.webp', scope: '' },
-  { device: 'GPU', time: '783 ms', video: '/vecc-gpu.mp4', poster: '/vecc-gpu.webp', scope: 'The HIP timer included saving grid snapshots. Video rendering was outside that timed code.' },
+  { device: 'CPU', milliseconds: 2892, scope: '' },
+  { device: 'GPU', milliseconds: 783, scope: 'The HIP timer included saving grid snapshots. Video rendering was outside that timed code.' },
 ];
+export const crochetVote = { video: '/crochet-vote.mp4', poster: '/crochet-vote-poster.webp' };
 
 export const hectaCase = {
   input: '2bhk flat in Gachibowlii',

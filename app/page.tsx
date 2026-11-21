@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { motion, useReducedMotion } from 'motion/react';
-import { artwork, artworkCaption, crochetPhotos, gallery, projects, resume, shop, soundtrack, veccRuns } from './content';
+import { artwork, artworkCaption, crochetPhotos, crochetVote, gallery, projects, resume, shop, soundtrack, veccRuns } from './content';
 import s from './portfolio.module.css';
 import { Hecta } from './hecta';
 
@@ -49,25 +49,21 @@ function Replay({ project }: { project: Project }) {
 }
 
 function Research({ project }: { project: Project }) {
-  const reduced = useReducedMotion();
   const [view, setView] = useState<'fractal' | 'comparison'>('fractal');
-  return <article id="vecc" className={s.vecc} aria-labelledby="vecc-title">
-    <header className={s.veccEntrance}>
-      <img src={artwork} alt="" loading="lazy" className={s.veccBackdrop}/>
-      <motion.div className={s.veccIntro} initial={false} whileInView={{ y: 0 }}
-        viewport={{ once: true }} transition={{ duration: reduced ? 0 : .45 }}
-        style={{ y: reduced ? 0 : 12 }}>
+  return <article id="vecc" className={s.hectaRoom} aria-labelledby="vecc-title">
+    <div className={s.hectaEntrance}>
+      <header>
         <p className={s.eyebrow}>{project.role} · {project.date}</p>
         <h3 id="vecc-title">{project.title}</h3>
         <p>{project.summary}</p>
-      </motion.div>
-    </header>
-    <div className={s.veccInterior}>
+        <ul className={s.tags}>{project.tags.map(tag => <li key={tag}>{tag}</li>)}</ul>
+      </header>
+      <div className={s.demo}>
       <div className={s.veccChoices} role="group" aria-label="VECC project views">
         <button aria-pressed={view === 'fractal'} aria-controls="vecc-preview" onClick={() => setView('fractal')}>Fractal</button>
         <button aria-pressed={view === 'comparison'} aria-controls="vecc-preview" onClick={() => setView('comparison')}>CPU vs GPU</button>
       </div>
-      <div id="vecc-preview">
+      <div id="vecc-preview" className={s.veccPreview}>
         {view === 'fractal' ? <figure className={s.veccFigure}>
           <a href={artwork} target="_blank" rel="noreferrer" aria-label="Open full-size fractal">
             <img className={s.fractalView} src={artwork} width={800} height={800} loading="lazy" alt="Crimson curves and fine diagonal lines on a dark field"/>
@@ -75,13 +71,16 @@ function Research({ project }: { project: Project }) {
           <figcaption>{artworkCaption}</figcaption>
         </figure> : <div>
           <p className={s.veccGridLabel}>1,000 × 1,000 grid · Final timings shown in the recordings</p>
-          <div className={s.veccRuns}>{veccRuns.map(run => <section key={run.device} aria-label={run.device + ' recording'}>
-            <div className={s.veccRunHead}><h4>{run.device}</h4><strong>{run.time}</strong></div>
-            <Video {...run} title={run.device + ' grid simulation'}/>
+          <div className={s.veccRuns}>{veccRuns.map(run => <section key={run.device} aria-label={run.device + ' timing'}>
+            <div className={s.veccRunHead}><h4>{run.device}</h4><strong>{run.milliseconds.toLocaleString('en-US')} ms</strong></div>
+            <div className={s.timingTrack} aria-hidden="true"><span style={{width: (run.milliseconds / veccRuns[0].milliseconds * 100) + '%'}}/></div>
             {run.scope && <p>{run.scope}</p>}
           </section>)}</div>
         </div>}
       </div>
+      </div>
+    </div>
+    <div className={s.hectaCase}>
       <details className={s.veccTechnical}>
         <summary>Technical details</summary>
         <p>{project.contribution}</p>
@@ -91,12 +90,33 @@ function Research({ project }: { project: Project }) {
   </article>;
 }
 
-function Crochet() {
-  return <div className={s.demo}>
-    <div className={s.demoTop}>Campus Crochet · Collection preview</div>
-    <div className={s.shopPhotos}>{crochetPhotos.map(piece => <figure key={piece.title}><img src={piece.image} alt={piece.title} loading="lazy"/><figcaption>{piece.title}</figcaption></figure>)}</div>
-    <div className={s.controls}><a href={shop} target="_blank" rel="noreferrer">Visit the live site</a></div>
-  </div>;
+function Crochet({ project }: { project: Project }) {
+  const reduced = useReducedMotion();
+  const [playing, setPlaying] = useState(false);
+  const piece = crochetPhotos[0];
+  return <article id="crochet" className={s.crochetRoom} aria-labelledby="crochet-title">
+    <header>
+      <motion.span className={s.crochetYarn} aria-hidden="true" initial={reduced ? false : { x: -24, rotate: -130 }} whileInView={{ x: 0, rotate: 0 }} viewport={{ once: true }} transition={{ duration: reduced ? 0 : .7 }}>🧶</motion.span>
+      <h3 id="crochet-title">{project.title}</h3>
+      <p>{project.summary}</p>
+    </header>
+    <div className={s.crochetMedia}>
+      <figure><img src={piece.image} alt="Close-up of a handmade crochet plush" loading="lazy"/><figcaption>Handmade crochet plush</figcaption></figure>
+      <section aria-label="Voting replay">
+        {playing ? <video src={crochetVote.video} poster={crochetVote.poster} autoPlay muted playsInline controls aria-label="Illustrative Campus Crochet voting flow"/> : <img src={crochetVote.poster} alt="Still preview of the sample Campus Crochet voting flow" loading="lazy"/>}
+        <p>Illustrative replay using the same crochet plush.</p>
+        <button aria-pressed={playing} onClick={() => setPlaying(!playing)}>{playing ? 'Close replay' : 'Watch the voting flow'}</button>
+        <details><summary>Read the voting steps</summary><ol><li>Browse the available designs.</li><li>Select the crochet plush as a favorite.</li><li>Continue with Google to save the vote on the live site.</li></ol></details>
+      </section>
+    </div>
+    <div className={s.crochetStory}>
+      <h4>From a campus poll to pickup</h4>
+      <p>I wanted to learn which designs students would actually pick before deciding what to make. The first launch let students browse designs, choose favorites, and sign in with Google to save their votes.</p>
+      <p>I built the storefront with Next.js and a MongoDB catalog, with stock reservations, order tracking, and server-side Razorpay payment verification. I’m planning to use the poll to decide what to make available for campus pickup and ordering. The live site is currently in voting mode, with orders and payments paused.</p>
+      <a href={shop} target="_blank" rel="noreferrer">Visit the voting site</a>
+      {project.url && <a href={project.url} target="_blank" rel="noreferrer">GitHub repository</a>}
+    </div>
+  </article>;
 }
 
 export default function Home() {
@@ -148,7 +168,7 @@ export default function Home() {
         <div className={s.sectionInner}>
           <div className={s.sectionHead}><h2>Selected work<span>.</span></h2><p>Internships & independent projects</p></div>
           <nav className={s.projectNav} aria-label="Jump to a project">{projects.map(project => <a key={project.id} href={'#' + project.id}>{project.short}</a>)}</nav>
-          <div className={s.rooms}>{projects.map(project => project.id === 'hecta' ? <Hecta key={project.id} project={project}/> : project.id === 'vecc' ? <Research key={project.id} project={project}/> : <article key={project.id} id={project.id} className={s.room} data-project={project.id} style={project.poster ? { backgroundImage: 'linear-gradient(90deg, #151016f5, #15101655), url(' + project.poster + ')' } : undefined}>
+          <div className={s.rooms}>{projects.map(project => project.id === 'hecta' ? <Hecta key={project.id} project={project}/> : project.id === 'vecc' ? <Research key={project.id} project={project}/> : project.id === 'crochet' ? <Crochet key={project.id} project={project}/> : <article key={project.id} id={project.id} className={s.room} data-project={project.id} style={project.poster ? { backgroundImage: 'linear-gradient(90deg, #151016f5, #15101655), url(' + project.poster + ')' } : undefined}>
             <div className={s.projectCopy}>
               <p className={s.eyebrow}>{project.role}{project.date && ' · ' + project.date}</p>
               <h3>{project.title}</h3>
@@ -157,7 +177,7 @@ export default function Home() {
               <ul className={s.tags}>{project.tags.map(tag => <li key={tag}>{tag}</li>)}</ul>
               <div className={s.projectLinks}><a href={'#' + project.id} aria-label={'Permalink to ' + project.title}>Project link</a>{project.url && <a href={project.url} target="_blank" rel="noreferrer">{'GitHub repository'}</a>}</div>
             </div>
-            <div className={s.projectMedia}>{project.video && <Video {...project}/>} {project.id === 'crochet' ? <Crochet/> : <Replay project={project}/>}</div>
+            <div className={s.projectMedia}>{project.video && <Video {...project}/>} <Replay project={project}/></div>
           </article>)}</div>
         </div>
         <audio ref={audio} preload="none" loop src={soundtrack}/>

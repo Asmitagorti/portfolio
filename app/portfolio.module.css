@@ -110,10 +110,6 @@
 .ask button { background: #e8d3a8; color: #241c15; }
 .answer a { display: inline-block; }
 .fractalView { display:block; width:100%; height:auto; }
-.shopPhotos { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 12px; }
-.shopPhotos figure { margin: 0; min-width: 0; }
-.shopPhotos img { display: block; width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 5px; }
-.shopPhotos figcaption { padding-top: 6px; font-size: .875rem; }
 .hero { padding-block: 82px; gap: 9%; }
 .chat { min-height: 234px; display: grid; align-content: start; gap: 12px; padding: 18px; }
 .question, .chatReply { margin: 0; padding: 12px; border-radius: 10px; line-height: 1.52; width: fit-content; max-width: 95%; }
@@ -130,15 +126,6 @@
   .plane { bottom: 14px; }
 }
 .hero { grid-template-columns: 1fr; gap: 0; }
-.vecc { overflow: hidden; color: #f8eee6; background: #19131a; border: 1px solid #e8b5a14a; border-radius: 12px; }
-.veccEntrance { position: relative; isolation: isolate; min-height: clamp(340px, 51vw, 640px); display: grid; align-items: end; padding: clamp(20px, 5vw, 66px); }
-.veccBackdrop { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; }
-.veccEntrance::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(0deg,#130c14 0%,#130c14e8 24%,#130c143d 78%); }
-.veccIntro { max-width: 680px; }
-.veccIntro .eyebrow { color: #ffd3ad; }
-.veccIntro h3 { font: normal clamp(3.2rem, 9vw, 7.8rem)/.94 var(--serif); letter-spacing: -.065em; margin: 12px 0; }
-.veccIntro p:last-child { font-size: clamp(1.03rem,2.2vw,1.38rem); line-height: 1.56; max-width: 53ch; margin-bottom: 0; }
-.veccInterior { max-width: 1100px; margin: auto; padding: clamp(16px, 4vw, 48px); }
 .veccChoices { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 24px; }
 .veccChoices button { background: #30232d; border: 1px solid #eecec16b; color: inherit; border-radius: 28px; padding: 10px 19px; font-weight: bold; }
 .veccChoices button[aria-pressed="true"] { color: #291c24; background: #f0c7ae; border-color: #f0c7ae; }
@@ -151,7 +138,6 @@
 .veccRunHead { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; padding: 0 1px 10px; }
 .veccRunHead h4 { margin: 0; }
 .veccRunHead strong { font: 1.4rem var(--serif); color: #ffd3ad; }
-.veccRuns video { display: block; width: 100%; aspect-ratio: 1; background: #161116; }
 .veccRuns p, .veccTechnical p { line-height: 1.55; }
 .veccTechnical { border-top: 1px solid #e8b5a14a; padding-top: 18px; margin-top: 24px; }
 .veccTechnical summary { cursor: pointer; font-weight: bold; width: fit-content; }
@@ -182,3 +168,28 @@
 @media (max-width: 760px) {
   .hectaEntrance, .hectaCase dl { grid-template-columns: 1fr; }
 }
+.veccPreview { padding: 10px 14px 16px; }
+.hectaRoom .veccChoices { margin: 0; padding: 10px 12px; border-bottom: 1px solid #fff3; }
+.hectaRoom .veccChoices button { background: #273e35; }
+.hectaRoom .veccChoices button[aria-pressed="true"] { color: #241c15; background: #e8d3a8; }
+.hectaRoom .veccRuns { grid-template-columns: 1fr; }
+.hectaRoom .veccRuns section { background: #243b33; border-color: #ffffff35; }
+.timingTrack { height: 12px; border-radius: 10px; overflow: hidden; background: #152922; }
+.timingTrack span { display: block; height: 100%; background: #e8c98d; border-radius: inherit; }
+.veccRuns section + section .timingTrack span { background: #a7d8ba; }
+.crochetRoom { color: #432b32; background: #f8eae3; border: 1px solid #dcb7b5; border-radius: 12px; padding: clamp(20px,5vw,60px); }
+.crochetRoom h3 { margin: 8px 0 14px; font: normal clamp(2.8rem,6vw,5.8rem)/1 var(--serif); letter-spacing: -.06em; }
+.crochetRoom header p, .crochetStory p { max-width: 67ch; line-height: 1.6; }
+.crochetYarn { display: inline-block; font-size: 2.35rem; }
+.crochetMedia { display: grid; grid-template-columns: minmax(0,.8fr) minmax(0,1.2fr); gap: clamp(14px,3vw,32px); margin: 24px 0; align-items: start; }
+.crochetMedia figure { margin: 0; }
+.crochetMedia img, .crochetMedia video { display: block; width: 100%; border-radius: 10px; }
+.crochetMedia figure img { aspect-ratio: 4 / 3; object-fit: cover; object-position: center 42%; }
+.crochetMedia figcaption { margin-top: 8px; font-size: .9rem; }
+.crochetMedia button { border: 0; border-radius: 6px; padding: 10px 14px; color: #fff; background: #793f54; font-weight: bold; }
+.crochetMedia details { margin-top: 12px; }
+.crochetMedia summary { cursor: pointer; }
+.crochetStory { border-top: 1px solid #ac7a805c; padding-top: 18px; }
+.crochetStory h4 { font: normal clamp(1.9rem,4vw,3rem)/1.13 var(--serif); margin: 0; }
+.crochetStory a { display: inline-block; margin: 8px 16px 0 0; text-underline-offset: 4px; }
+@media (max-width: 760px) { .crochetMedia { grid-template-columns: 1fr; } }
