@@ -69,8 +69,8 @@ function Research({ project }: { project: Project }) {
       </div>
       <div id="vecc-preview">
         {view === 'fractal' ? <figure className={s.veccFigure}>
-          <a href={artwork} target="_blank" rel="noreferrer" aria-label="Open full-size fractal study">
-            <img className={s.fractalView} src={artwork} width={900} height={900} loading="lazy" alt="Crimson curves and fine diagonal lines on a dark field"/>
+          <a href={artwork} target="_blank" rel="noreferrer" aria-label="Open full-size fractal">
+            <img className={s.fractalView} src={artwork} width={800} height={800} loading="lazy" alt="Crimson curves and fine diagonal lines on a dark field"/>
           </a>
           <figcaption>{artworkCaption}</figcaption>
         </figure> : <div>

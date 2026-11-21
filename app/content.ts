@@ -1,7 +1,7 @@
 export const resume = '/asmita-gorti-resume.pdf';
 export const soundtrack = '/work-ambient.wav';
-export const artwork = '/fractal-study.webp';
-export const artworkCaption = 'Visual study based on my fractal';
+export const artwork = '/vecc-fractal.png';
+export const artworkCaption = 'My original fractal';
 export const projects = [
   {
     id: 'hecta', title: 'Hecta Proptech', short: 'Hecta', role: 'Tech Intern', date: 'May–June 2026',
