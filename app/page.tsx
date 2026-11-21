@@ -167,7 +167,7 @@ export default function Home() {
               <p className={s.summary}>{project.summary}</p>
               <p>{project.contribution}</p>
               <ul className={s.tags}>{project.tags.map(tag => <li key={tag}>{tag}</li>)}</ul>
-              <div className={s.projectLinks}><a href={'#' + project.id} aria-label={'Permalink to ' + project.title}>Project link</a>{project.url && <a href={project.url} target="_blank" rel="noreferrer">{'GitHub repository'}</a>}</div>
+              {project.url && <div className={s.projectLinks}><a href={project.url} target="_blank" rel="noreferrer">GitHub repository</a></div>}
             </div>
             <div className={s.projectMedia}>{project.video && <Video {...project}/>} <Replay project={project}/></div>
           </article>)}</div>

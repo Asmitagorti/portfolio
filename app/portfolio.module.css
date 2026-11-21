@@ -200,3 +200,5 @@
 .veccPalette .timingTrack { background: #2b1b2b; }
 .veccPalette .timingTrack span { background: #d6a4dd; }
 .veccPalette .veccRuns section + section .timingTrack span { background: #f1bdc6; }
+
+.hectaCase .veccTechnical h4 { margin-top: 18px; }
