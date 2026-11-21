@@ -47,9 +47,9 @@ export const crochetPhotos = [
 ];
 export const gallery = [
   ...crochetPhotos,
-  { title: 'Handmade cards', image: '', caption: 'Paper, folds, and small details.' },
-  { title: 'Travel', image: '', caption: 'Photos and memories from places I’ve lived and visited.' },
-  { title: 'Violin', image: '', caption: 'I play with my college music club and won its solo instrumental competition.' },
+  { title: 'Handmade cards', image: '/studio-card.webp', alt: 'Handmade congratulations card with cut-paper lettering and crocheted flowers', caption: 'A congratulations card with paper lettering and crocheted flowers.' },
+  { title: 'Travel', image: '/studio-travel.webp', alt: 'City lights below a narrow strip of orange sunset', caption: 'City lights at dusk.' },
+  { title: 'Violin', image: '/studio-violin.webp', alt: 'Asmita playing violin onstage at a college concert', caption: 'Playing violin at a college concert.' },
 ];
 
 export const veccRuns = [

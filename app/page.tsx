@@ -178,7 +178,7 @@ export default function Home() {
         <div className={s.sectionInner}>
           <div className={s.sectionHead}><h2>Art, travel & music<span>.</span></h2><motion.div className={s.yarn} aria-hidden="true" initial={reduced ? false : { x: -65, rotate: -220 }} whileInView={{ x: 0, rotate: 0 }} viewport={{ once: true }} transition={{ duration: reduced ? 0 : 1.2 }}>🧶</motion.div></div>
           <div className={s.gallery}>{gallery.map(piece => <figure key={piece.title}>
-            {piece.image && <img src={piece.image} alt={piece.title} loading="lazy"/>}
+            {piece.image && <img src={piece.image} alt={'alt' in piece ? piece.alt : piece.title} loading="lazy" className={'alt' in piece ? s.studioPhoto : undefined}/>}
             <figcaption><h3>{piece.title}</h3><p>{piece.caption}</p></figcaption>
           </figure>)}</div>
         </div>
