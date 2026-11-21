@@ -112,8 +112,7 @@ function Crochet({ project }: { project: Project }) {
     </div>
     <div className={s.crochetStory}>
       <h4>From a campus poll to pickup</h4>
-      <p>I wanted to learn which designs students would actually pick before deciding what to make. The first launch let students browse designs, choose favorites, and sign in with Google to save their votes.</p>
-      <p>I launched the storefront for my handmade keychains and amigurumi. I’m using the poll to decide what to make available for campus pickup and ordering. The live site is currently in voting mode, with orders and payments paused.</p>
+      <p>I’ll use the votes to plan what’s available for campus pickup. Ordering and payments are paused while voting is open.</p>
       <details><summary>Storefront and admin implementation</summary><p>{project.detail}</p><p>{project.operations}</p></details>
       <a href={shop} target="_blank" rel="noreferrer">Visit the voting site</a>
       {project.url && <a href={project.url} target="_blank" rel="noreferrer">GitHub repository</a>}
