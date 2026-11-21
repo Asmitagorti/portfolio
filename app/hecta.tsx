@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, type FormEvent } from 'react';
+import { useEffect, useState, type FormEvent } from 'react';
+import { useReducedMotion } from 'motion/react';
 import { projects } from './content';
 import s from './portfolio.module.css';
 
@@ -30,6 +31,13 @@ function tokens(value: string) {
 export function Hecta() {
   const [mode, setMode] = useState<'listings' | 'profile'>('listings');
   const [stage, setStage] = useState(0);
+  const reduced = useReducedMotion();
+  const running = stage > 0 && stage < 4;
+  useEffect(() => {
+    if (!running || mode !== 'listings') return;
+    const timer = window.setTimeout(() => setStage(stage + 1), reduced ? 350 : 950);
+    return () => window.clearTimeout(timer);
+  }, [running, stage, mode, reduced]);
   const [follow, setFollow] = useState(false);
   const [query, setQuery] = useState('');
   const [asked, setAsked] = useState('');
@@ -52,19 +60,23 @@ export function Hecta() {
       <button aria-pressed={mode === 'profile'} onClick={() => setMode('profile')}>Ask about Asmita</button>
     </div>
     {mode === 'listings' ? <>
-      <div className={s.demoBody} aria-live="polite">
-        <span className={s.demoLabel}>Sample property data · {follow ? 'Follow-up' : 'First question'}</span>
-        <p>{follow ? followUp : opening}</p>
-        {stage >= 1 && <ol className={s.trace}>
-          <li><strong>Qdrant similarity search.</strong> {follow ? 'The current listing stays in context.' : 'Rank the example listings by relevance to the question.'}</li>
-          <li><strong>SQL lookup.</strong> {follow ? 'Look up the parking field for listing ' + match.id + '.' : 'Check location, bedroom count, and price against the listing records.'}</li>
+      <div className={s.chat} aria-live="polite">
+        <span className={s.demoLabel}>Property search · Sample data</span>
+        <p className={s.question}>{opening}</p>
+        {follow && <>
+          <p className={s.chatReply}>I found a {match.rooms} BHK in {match.area} at ₹{match.price} lakh. <strong>[{match.id}]</strong></p>
+          <p className={s.question}>{followUp}</p>
+        </>}
+        {stage >= 1 && <ol className={s.trace} aria-label="Retrieval activity">
+          <li><strong>Qdrant similarity search</strong><span>{follow ? 'Keep the matching listing in context.' : 'Rank available listings by relevance to the question.'}</span></li>
+          {stage >= 2 && <li><strong>SQL lookup</strong><span>{follow ? 'Check the parking field for listing ' + match.id + '.' : 'Verify the neighborhood, bedroom count, and budget.'}</span></li>}
+          {stage >= 3 && <li><strong>Prepare answer</strong><span>Use the verified record and cite the listing.</span></li>}
         </ol>}
-        {stage === 2 && <div className={s.answer}>{follow ? (match.parking ? 'Yes, this listing includes parking.' : 'This listing has no parking.') : `I found a ${match.rooms} BHK in ${match.area} at ₹${match.price} lakh.`} <strong>[{match.id}]</strong></div>}
+        {stage === 4 && <p className={s.chatReply}>{follow ? (match.parking ? 'Yes, this listing includes parking.' : 'This listing has no parking.') : `I found a ${match.rooms} BHK in ${match.area} at ₹${match.price} lakh.`} <strong>[{match.id}]</strong></p>}
       </div>
       <div className={s.controls}>
-        {stage < 2 && <button onClick={() => setStage(stage + 1)}>{stage === 0 ? 'Find matching listings' : 'Show answer'}</button>}
-        {stage === 2 && !follow && <button onClick={() => { setFollow(true); setStage(0); }}>{followUp}</button>}
-        {(stage > 0 || follow) && <button onClick={() => { setFollow(false); setStage(0); }}>Start over</button>}
+        <button className={s.runButton} disabled={running} onClick={() => { setFollow(false); setStage(1); }}>{running ? 'Searching…' : stage === 0 ? 'Search' : 'Search again'}</button>
+        {stage === 4 && !follow && <button onClick={() => { setFollow(true); setStage(1); }}>{followUp}</button>}
       </div>
     </> : <div className={s.demoBody}>
       <p className={s.demoLabel}>Searches portfolio facts in your browser.</p>

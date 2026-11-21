@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { motion, useReducedMotion } from 'motion/react';
-import { artwork, artworkCaption, crochetPhotos, gallery, precisionRuns, projects, resume, shop, simulations, soundtrack } from './content';
+import { artwork, artworkCaption, crochetPhotos, gallery, projects, resume, shop, soundtrack } from './content';
 import s from './portfolio.module.css';
 import { Hecta } from './hecta';
 
@@ -30,58 +30,35 @@ function Video({ video: source, poster, title }: { video: string; poster: string
 }
 
 function Replay({ project }: { project: Project }) {
-  const [step, setStep] = useState(0);
-  const [playing, setPlaying] = useState(false);
-  const panel = useRef<HTMLDivElement>(null);
+  const reduced = useReducedMotion();
+  const [step, setStep] = useState(-1);
+  const running = step >= 0 && step < project.steps.length - 1;
   useEffect(() => {
-    if (!panel.current) return;
-    const observer = new IntersectionObserver(([entry]) => {
-      if (!entry.isIntersecting) setPlaying(false);
-    });
-    observer.observe(panel.current);
-    return () => observer.disconnect();
-  }, []);
-  useEffect(() => {
-    if (!playing) return;
-    const timer = window.setTimeout(() => {
-      if (step === project.steps.length - 1) setPlaying(false);
-      else setStep(step + 1);
-    }, 2600);
+    if (!running) return;
+    const timer = window.setTimeout(() => setStep(step + 1), reduced ? 350 : 1700);
     return () => window.clearTimeout(timer);
-  }, [playing, step, project.steps.length]);
-  return <div className={s.demo} ref={panel}>
-    <div className={s.demoTop}><span className={s.lights} aria-hidden="true">● ● ●</span><span>{project.demo}</span></div>
+  }, [running, step, reduced]);
+  return <div className={s.demo}>
+    <div className={s.demoTop}>{project.demo}</div>
     <div className={s.demoBody} aria-live="polite">
-      <span className={s.demoLabel}>{project.steps[step][0]}</span>
-      <p>{project.steps[step][1]}</p>
+      {project.steps.slice(0, step + 1).map(([label, detail]) => <div className={s.demoEvent} key={label}><strong>{label}</strong><p>{detail}</p></div>)}
+      {step < 0 && <p>{project.steps[0][1]}</p>}
     </div>
-    <div className={s.controls}>
-      <button onClick={() => { if (playing) setPlaying(false); else { setStep(0); setPlaying(true); } }}>{playing ? 'Pause' : 'Replay'}</button>
-      {project.steps.map(([label], index) => <button key={label} aria-pressed={index === step} onClick={() => { setPlaying(false); setStep(index); }}>{label}</button>)}
-    </div>
+    <div className={s.controls}><button className={s.runButton} disabled={running} onClick={() => setStep(0)}>{running ? 'Running…' : step < 0 ? 'Start' : 'Run again'}</button></div>
   </div>;
 }
 
 function Research() {
-  const [view, setView] = useState<'Fractal' | keyof typeof simulations>('Fractal');
-  const clip = view === 'Fractal' ? null : simulations[view];
   return <div className={s.research}>
-    <div className={s.controls} aria-label="VECC media">
-      {(['Fractal', 'CPU', 'GPU'] as const).map(option => <button key={option} aria-pressed={view === option} onClick={() => setView(option)}>{option === 'Fractal' ? option : option + ' simulation'}</button>)}
+    <figure className={s.artwork}>
+      <a href={artwork} target="_blank" rel="noreferrer" aria-label="Open full-size fractal study">
+        <img className={s.fractalView} src={artwork} width={900} height={900} loading="lazy" alt="Crimson curves and fine diagonal lines on a dark field"/>
+      </a>
+      <figcaption>{artworkCaption} <a href={artwork} target="_blank" rel="noreferrer">Open full size</a></figcaption>
+    </figure>
+    <div className={s.researchHighlight}>
+      <strong>1,000 × 1,000</strong><span>Grid used in the CPU and GPU implementations</span>
     </div>
-    {clip ? <Video key={view} {...clip} title={view + ' grid simulation'} /> : <img className={s.fractalView} src={artwork} loading="lazy" alt={artworkCaption}/>}
-    <div className={s.benchmarks} tabIndex={0}>
-      <table><caption>1,000 × 1,000 grid · recorded timing overlays</caption><thead><tr><th scope="col">Run</th><th scope="col">Shown</th><th scope="col">Timing scope</th></tr></thead>
-      <tbody>{Object.entries(simulations).map(([device, run]) => <tr key={device}><th scope="row">{device}</th><td className={s.timing}>{run.time}</td><td>{run.scope}</td></tr>)}</tbody></table>
-    </div>
-    <details className={s.precision}>
-      <summary>Separate HIP precision benchmark</summary>
-      <p>500-million-element vector. Original reported values. The FP64 host-to-device time exceeds the reported total, so the total needs verification.</p>
-      <div className={s.benchmarks} tabIndex={0} aria-label="Precision benchmark results">
-        <table><thead><tr>{['Precision', 'hipMalloc (µs)', 'H→D (µs)', 'Kernel launch (µs)', 'D→H (µs)', 'Memory (MiB)', 'Reported total (µs)'].map(label => <th key={label} scope="col">{label}</th>)}</tr></thead>
-        <tbody>{precisionRuns.map(([precision, ...values]) => <tr key={precision}><th scope="row">{precision}</th>{values.map((value, index) => <td key={index}>{value}</td>)}</tr>)}</tbody></table>
-      </div>
-    </details>
   </div>;
 }
 
@@ -135,7 +112,12 @@ export default function Home() {
           <p className={s.intro}>I’m a computer science student who builds software from scratch, from search systems to tools for my campus. Away from the keyboard, I crochet and make things by hand.</p>
           <div className={s.actions}><a className={s.primary} href="#work">View work</a><a className={s.secondary} href={resume} target="_blank" rel="noreferrer">Résumé</a></div>
         </div>
-        <figure className={s.print}><img src={artwork} alt="Crimson curves and fine diagonal lines on a dark field" width={900} height={900}/><figcaption><span>{artworkCaption}</span><span>Digital study</span></figcaption></figure>
+        <aside className={s.heroIndex} aria-label="Featured projects">
+          <h2>Featured projects</h2>
+          <a href="#hecta"><strong>Property search</strong><span>Hecta Proptech · Retrieval and ranking</span></a>
+          <a href="#vecc"><strong>Parallel computing</strong><span>VECC / BARC · HIP and fractal studies</span></a>
+          <a href="#crochet"><strong>Campus Crochet</strong><span>Full-stack storefront for handmade work</span></a>
+        </aside>
         <motion.div aria-hidden="true" className={s.plane} initial={reduced ? false : { x: -150, y: 65, opacity: 0 }} animate={{ x: 0, y: 0, opacity: 1 }} transition={{ duration: reduced ? 0 : 1.4, ease: 'easeOut' }}><Plane/></motion.div>
       </section>
 

@@ -14,7 +14,7 @@ export const projects = [
     id: 'vecc', title: 'VECC / BARC', short: 'VECC / BARC', role: 'Research Intern', date: 'December 4–18, 2025',
     summary: 'An exploration of parallel computing through HIP benchmarks, a grid simulation, and custom Mandelbrot fractals.',
     contribution: 'I implemented CPU and GPU versions of matrix multiplication and a 1,000 × 1,000 virus-spread simulation, benchmarked floating-point formats, and presented my findings in a technical report.',
-    tags: ['C++', 'HIP', 'GPU computing'], video: '', poster: artwork,
+    tags: ['C++', 'HIP', 'GPU computing'], video: '', poster: '',
     url: 'https://drive.google.com/file/d/181M8qtFGiQ2TKXyD_oohr-i9CMC-u2OI/view?usp=sharing',
     demo: 'Grid simulation', steps: [],
   },
@@ -44,15 +44,6 @@ export const shop = 'https://campus-crochet.tech';
 export const crochetPhotos = [
   { title: 'Crochet plush', image: '/crochet-plush.webp', caption: 'Handmade plush from Campus Crochet.' },
   { title: 'Crochet bag', image: '/crochet-bag.webp', caption: 'A handmade bag from Campus Crochet.' },
-];
-export const simulations = {
-  CPU: { video: '/vecc-cpu.mp4', poster: '/vecc-cpu.webp', time: '2,892 ms', scope: 'Clip overlay. Timing boundaries and frame generation unconfirmed.' },
-  GPU: { video: '/vecc-gpu.mp4', poster: '/vecc-gpu.webp', time: '783 ms', scope: 'Clip overlay. In the supplied GPU code, the timed region includes allocation, transfers, simulation updates and grid snapshot writes. Video rendering is outside that code.' },
-};
-export const precisionRuns = [
-  ['FP64', '1,405,284', '52,403,136', '14,895', '179', '7,360', '46,781,519'],
-  ['FP32', '99,128', '557,297', '595', '931,878', '7,632', '3,110,999'],
-  ['FP16', '455,278', '339,491', '501', '456,143', '3,956', '3,122,435'],
 ];
 export const gallery = [
   ...crochetPhotos,
